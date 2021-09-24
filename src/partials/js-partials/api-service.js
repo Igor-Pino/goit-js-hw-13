@@ -10,7 +10,7 @@ constructor() {
 }
 
     async fetchImageByTag() {
-        const url = `${this.BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${this.API_KEY}`
+        const url = `${this.BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=8&key=${this.API_KEY}`
         const response = await fetch(url);
         const data = await response.json();
         this.incrementPage();
