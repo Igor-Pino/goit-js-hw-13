@@ -32,8 +32,9 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore)
 
 function appendImageMarkup (data) {
     const markup = imageCardTpl(data);
-    refs.imageContainer.insertAdjacentHTML('beforeend', markup);    
-    removeBtnClass()
+    refs.imageContainer.insertAdjacentHTML('beforeend', markup);  
+      
+    
 }
 
 function clearImageContainer () {
@@ -51,17 +52,21 @@ function addBtnClass () {
 function onInputChange(e) {
     clearImageContainer()
     addBtnClass()
-    apiService.query = e.target.value;
-    if(apiService.query === '') {return info('input something')}
+    apiService.query = e.target.value.trim();
+    if(!apiService.query) {return info('input something')}
     apiService.resetPage()
     apiService.fetchImageByTag()
-    .then(data => { if(data.length === 0) {return info('nothing to show')} appendImageMarkup(data)})
+    .then(data => { if(data.length === 0) {return info('nothing to show')};
+    if (data.length === 0 || data.length < 8) {return appendImageMarkup(data)};
+    appendImageMarkup(data), removeBtnClass()
+})
     
 }
 
 function onLoadMore() {  
     apiService.fetchImageByTag().then(data => 
-        {appendImageMarkup(data), imageScroll ()      
+        {if(data.length === 0 || data.length < 8) {addBtnClass();};
+        appendImageMarkup(data), imageScroll ()      
 })}
 
 
